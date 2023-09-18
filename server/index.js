@@ -25,10 +25,16 @@ const io = new Server(server,{
 //Now we can use our io variable to detect if someone connected to our socketio server
 io.on("connection",(socket)=>{
     //If some connects to our socket server this function runs
-    console.log(socket.id);
+    console.log(`${socket.id} is connected`)
+    socket.on("joinRoom",(data)=>{
+        //If the event "joinRoom" is emitted in the frontend this function runs
+        //socket.join() is a function users based on some data in our case is the id of the room
+        socket.join(data);
+        console.log(`${socket.id} join the room ${data}`);
+    })
     socket.on("disconnect",()=>{
         //closing the tab means disconnecting so if this event happens we call 
-        console.log(`user disconnected ${socket.id}`);
+        console.log(`${socket.id} is disconnected`);
     })
 });
 server.listen(3001,()=>{
